@@ -11,7 +11,7 @@
     ],
     "data": [
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 1,
             "circuit_depths": [
                 4,
@@ -135,7 +135,7 @@
             "entropy": 0.5924101084402306
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 2,
             "circuit_depths": [
                 8,
@@ -307,7 +307,7 @@
             "entropy": 0.5752597445014334
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 3,
             "circuit_depths": [
                 10,
@@ -477,7 +477,7 @@
             "entropy": 0.6661111814384054
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 4,
             "circuit_depths": [
                 13,
@@ -647,7 +647,7 @@
             "entropy": 0.7772761887756596
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 5,
             "circuit_depths": [
                 16,
@@ -817,7 +817,7 @@
             "entropy": 0.9575494747180673
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 6,
             "circuit_depths": [
                 19,
@@ -1116,7 +1116,7 @@
             "entropy": 0.9754037256965997
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 7,
             "circuit_depths": [
                 22,
@@ -1157,7 +1157,7 @@
             "entropy": 0.14722423755725642
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 8,
             "circuit_depths": [
                 25,
@@ -1370,7 +1370,7 @@
             "entropy": 0.6149158096604853
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 9,
             "circuit_depths": [
                 28,
@@ -1540,7 +1540,7 @@
             "entropy": 0.944241261261228
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 10,
             "circuit_depths": [
                 31,

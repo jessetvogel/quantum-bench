@@ -9,7 +9,7 @@
     ],
     "data": [
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 2,
             "circuit_depths": [
                 110
@@ -103,7 +103,7 @@
             "entropy": 0.9624211707317533
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 3,
             "circuit_depths": [
                 213
@@ -197,7 +197,7 @@
             "entropy": 0.9697479846720709
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 4,
             "circuit_depths": [
                 349
@@ -291,7 +291,7 @@
             "entropy": 0.9692793222865924
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 5,
             "circuit_depths": [
                 515
@@ -385,7 +385,7 @@
             "entropy": 0.9070856279271909
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 6,
             "circuit_depths": [
                 717
@@ -479,7 +479,7 @@
             "entropy": 0.8120008205959331
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 7,
             "circuit_depths": [
                 945
@@ -645,7 +645,7 @@
             "entropy": 0.6221115177913761
         },
         {
-            "backend": "aer",
+            "backend": "qiskit_aer",
             "n": 8,
             "circuit_depths": [
                 1213

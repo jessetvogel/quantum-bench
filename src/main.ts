@@ -9,6 +9,8 @@ import { Menu } from './menu';
 import { initTheme } from './theme';
 import { PhaseEstimation } from './benchmarks/phase-estimation';
 import { Summary } from './benchmarks/summary';
+import { PeriodFinding } from './benchmarks/period-finding';
+import { BernsteinVazirani } from './benchmarks/bernstein-vazirani';
 
 initTheme();
 
@@ -66,6 +68,22 @@ async function update(content: HTMLElement, benchmark: Benchmark | "summary", ba
     if (benchmark.name == "Phase estimation") {
         const runs = await loadRuns(benchmark, backends);
         const c = PhaseEstimation(runs);
+        clear(content); // note: clearing after creating prevents flickering
+        content.append(c);
+        return;
+    }
+
+    if (benchmark.name == "Period finding") {
+        const runs = await loadRuns(benchmark, backends);
+        const c = PeriodFinding(runs);
+        clear(content); // note: clearing after creating prevents flickering
+        content.append(c);
+        return;
+    }
+
+    if (benchmark.name == "Bernstein-Vazirani") {
+        const runs = await loadRuns(benchmark, backends);
+        const c = BernsteinVazirani(runs);
         clear(content); // note: clearing after creating prevents flickering
         content.append(c);
         return;

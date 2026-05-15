@@ -18,12 +18,14 @@ export type Run = {
     metrics: { [param: string]: string | number },
 }
 
+const DEFAULT_METRICS = ["circuit_depths", "circuit_widths", "transpile_time", "qpu_time", "runtime"];
+
 export function benchmarks(): Benchmark[] {
     return [
-        { id: 0, name: "Grover", parameters: ["n"], metrics: ["circuit_depths", "circuit_widths", "transpile_time", "qpu_time", "runtime", "accuracy", "entropy"] },
-        { id: 1, name: "Period finding", parameters: [], metrics: [] },
-        { id: 2, name: "Phase estimation", parameters: ["n"], metrics: ["fidelity", "entropy", "mean_squared_error", "qpu_time", "runtime", "transpile_time"] },
-        { id: 3, name: "Bernstein-Vazirani", parameters: [], metrics: [] },
+        { id: 0, name: "Grover", parameters: ["n"], metrics: [...DEFAULT_METRICS, "accuracy", "entropy"] },
+        { id: 1, name: "Period finding", parameters: ["n"], metrics: [...DEFAULT_METRICS, "accuracy"] },
+        { id: 2, name: "Phase estimation", parameters: ["n"], metrics: [...DEFAULT_METRICS, "fidelity", "entropy", "mean_squared_error"] },
+        { id: 3, name: "Bernstein-Vazirani", parameters: ["n"], metrics: [...DEFAULT_METRICS, "fidelity", "entropy"] },
     ]
 }
 

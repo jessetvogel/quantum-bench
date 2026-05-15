@@ -78,7 +78,11 @@ function createSeries(metric: string, runs: Run[]): Series {
 
         if (!(name in series)) series[name] = [];
 
-        series[name].push({ x: (x as any)[0], y });
+        let xs = (x as any) as number[];
+
+        // if (xs.length > 1) continue;
+
+        series[name].push({ x: xs[0], y: y / xs.length });
     }
 
     for (const name in series) {
