@@ -23,7 +23,7 @@ export function LineChart(
 ): SVGElement {
     const width = options?.width || 512;
     const height = options?.height || 512;
-    const margin = { top: 8, right: 8, bottom: 32, left: 64 };
+    const margin = { top: 8, right: 8, bottom: 48, left: 64 };
 
     const keys = Object.keys(series);
 
@@ -33,7 +33,8 @@ export function LineChart(
     // SVG
     const svg = d3.create("svg")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+        .attr("overflow", "visible");
 
     // Scales
     const xscale = (options?.xscale === "log") ? d3.scaleLog() : d3.scaleLinear();
@@ -119,7 +120,7 @@ export function LineChart(
     if (options?.xlabel) {
         svg.append("text")
             .attr("x", margin.left + (width - margin.left - margin.right) / 2)
-            .attr("y", height)
+            .attr("y", height - 8)
             .attr("text-anchor", "middle")
             .style("font-size", "1rem")
             .style("font-weight", "bold")

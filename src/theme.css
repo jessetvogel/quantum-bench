@@ -118,6 +118,10 @@ select {
     font-family: var(--font-mono);
 }
 
+p {
+    text-align: justify;
+}
+
 /* KaTeX */
 .katex {
     font-size: 1em !important;

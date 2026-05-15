@@ -18,15 +18,21 @@ export function BenchmarkList(options: Options = {}) {
     );
 
     const benchs = Object.fromEntries(benchmarks().map(b => [b.name, b]));
-
     const select = create("select", {
-        "@change": () => options.onchange?.(benchs[select.value])
+        "@change": () => {
+            if (select.value in benchs)
+                options.onchange?.(benchs[select.value])
+            else
+                options.onchange?.("summary" as any)
+        }
     }) as HTMLSelectElement;
 
-    select.append(create("option", "-", { disabled: true, selected: true }))
-    for (const name in benchs) {
-        select.append(create("option", name, { value: name }));
-    }
+    select.append(
+        create("option", "-", { disabled: true, selected: true }),
+        ...Object.keys(benchs).map(name => create("option", name, { value: name })),
+        create("option", "────────────────", { disabled: true, style: "line-height: 1px;" }),
+        create("option", "Summary")
+    );
 
     list.append(select);
 
