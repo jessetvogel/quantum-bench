@@ -1,4 +1,4 @@
-:root {
+body {
     /* Background, text colors, borders */
     --bg-dark: #f1efec;
     --bg: #f8f7f6;
@@ -9,8 +9,8 @@
     --text-muted: #6f6f6f;
 
     --highlight: #fff;
-    --border: #ccc;
-    --border-muted: #bbb;
+    --border: #bbb;
+    --border-muted: #ccc;
 
     /* Colors */
     --white: #ffffff;
@@ -53,10 +53,44 @@
     /* Fonts */
     --font-main: "Palatino Linotype", serif;
     --font-mono: "DM Mono", monospace;
+    --font-sans: "DM Sans", sans-serif;
+}
+
+
+body.dark {
+    /* Background, text colors, borders */
+    --bg-dark: #1d1c1c;
+    --bg: #252524;
+    --bg-light: #3d3c3a;
+    --bg-extra-light: #5b5a57;
+
+    --text: #dfdbdb;
+    --text-muted: #ccc;
+
+    --highlight: #999999;
+    --border: #777069;
+    --border-muted: #44413f;
+
+    /* Specifics */
+
+    --dialog-backdrop-color: rgba(0, 0, 0, 0.67);
+
+    --code-bg: var(--bg);
+    --code-text: var(--text-muted);
+    --code-border: var(--border-muted);
+
+    --error-text-color: var(--red);
+    --info-text-color: var(--blue);
+    --warning-text-color: var(--yellow);
+    --debug-text-color: var(--green);
+
+    --shadow: 0px 0px 8px rgba(0, 0, 0, 0.075);
+    --invert-filter: invert(1);
 }
 
 body {
-    background-color: #fefef9;
+    background-color: var(--bg-dark);
+    color: var(--text);
     font-family: var(--font-main);
 }
 
@@ -82,4 +116,9 @@ select {
     outline: none;
     box-shadow: var(--shadow);
     font-family: var(--font-mono);
+}
+
+/* KaTeX */
+.katex {
+    font-size: 1em !important;
 }

@@ -2,6 +2,7 @@ import { BackendList } from "./backends";
 import { BenchmarkList } from "./benchmarks";
 import type { Backend, Benchmark } from "./data";
 import { create, feat } from "./html";
+import { setTheme } from "./theme";
 
 type Options = {
     onchange?: (benchmark: Benchmark, backends: Set<Backend>) => void,
@@ -12,7 +13,7 @@ export function Menu(options: Options = {}): HTMLElement {
         style: {
             "display": "flex",
             "flex-direction": "column",
-            "gap": "32px",
+            "gap": "24px",
             "padding": "16px",
             "border": "1px solid var(--border)",
         }
@@ -35,6 +36,15 @@ export function Menu(options: Options = {}): HTMLElement {
             }
         },
     })));
+
+    menu.append(create("div", { style: { "border-top": "1px solid var(--border)" } }))
+
+    menu.append(create("div", {
+        style: { "display": "flex", "justify-content": "center", "gap": "32px", "font-size": "0.875rem", "font-style": "italic" }
+    },
+        create("div", "light", { "@click": () => setTheme("light"), style: { "color": "var(--muted)" } }),
+        create("div", "dark", { "@click": () => setTheme("dark"), style: { "color": "var(--muted)" } }),
+    ));
 
     return menu;
 }

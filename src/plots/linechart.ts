@@ -56,7 +56,7 @@ export function LineChart(
                     .tickSize(-(height - margin.top - margin.bottom))
                     .tickFormat(() => "")
             )
-            .call(g => g.selectAll("line").attr("stroke", "#ddd"));
+            .call(g => g.selectAll("line").attr("stroke", "rgba(127, 127, 127, 0.2)"))
 
         // y-grid
         svg.append("g")
@@ -66,7 +66,7 @@ export function LineChart(
                     .tickSize(-(width - margin.left - margin.right))
                     .tickFormat(() => "")
             )
-            .call(g => g.selectAll("line").attr("stroke", "#ddd"));
+            .call(g => g.selectAll("line").attr("stroke", "rgba(127, 127, 127, 0.2)"));
     }
 
     // Line generator
@@ -112,7 +112,8 @@ export function LineChart(
     // x-axis
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .attr("font-family", "var(--font-sans)");
 
     // x-label
     if (options?.xlabel) {
@@ -129,7 +130,8 @@ export function LineChart(
     // y-axis
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y))
+        .attr("font-family", "var(--font-sans)");
 
     // y-label
     if (options?.ylabel) {

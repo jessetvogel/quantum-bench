@@ -7,17 +7,22 @@ import { color } from "../plots/colors"
 import { Legend } from "../plots/legend";
 import { katex } from "../katex";
 
-const GROVER_DESCRIPTION = `
-For each integer $n \\ge 2$, a secret bitstring $s \\in \\{0,1\\}^n$ is chosen, from which an $n$-qubit oracle $\\mathcal{O}$ is constructed defined by
-$\\mathcal{O}\\ket{s} = -\\ket{s}$ and $\\mathcal{O}\\ket{i} = \\ket{i}$ for all $i \\ne s$.
+const PHASE_ESTIMATION_DESCRIPTION = `
+    Given a phase $\\phi \\in \\{0.123, 0.456, 0.789\\}$, the task is to estimate $\\phi$ to $n$ bits of precision using the quantum phase estimation algorithm.
 
-This benchmark executes Grover's search algorithm for 1,000 shots and measures how often the correct secret string is returned.
+    The unitary
+    $U = R_Z(2\\pi \\phi) = \\begin{pmatrix} e^{-2\\pi i \\phi} & 0 \\\\ 0 & e^{2\\pi i \\phi} \\end{pmatrix}$
+    is used together with the eigenvector $\\ket{1}$, which has eigenvalue $\\lambda = e^{2\\pi i \\phi}$.
 
-The reported accuracy is the fraction of shots that produce the secret $s$. Note that, even an ideal quantum computer will generally not achieve an accuracy of exactly $1$, since Grover's algorithm is probabilistic. However, the theoretical success probability is always very close to $1$.
+    For each integer $j = 0, \\dots, N - 1$, the controlled-$U^j$ operation is implemented using a sequence of controlled rotation gates. The circuit is executed for 1,000 shots for each value of $\\phi$.
+
+    The fidelity measures how closely the observed bitstring distribution matches the ideal theoretical distribution. The mean squared error measures the average squared difference between the true phase $\\phi$ and the estimated phase $\\hat{\\phi}$ reconstructed from the measured bitstrings.
 `;
 
-export function Grover(runs: Run[]): HTMLElement {
+export function PhaseEstimation(runs: Run[]): HTMLElement {
     const content = create("div");
+
+    console.log(runs);
 
     // Collect backends
     const backends: Backend[] = [];
@@ -30,7 +35,7 @@ export function Grover(runs: Run[]): HTMLElement {
     // Add description
     content.append(katex(create("div", {
         style: { "max-width": "50em", "margin": "0px auto" }
-    }, ...GROVER_DESCRIPTION.split("\n\n").map(x => create("p", x)))));
+    }, ...PHASE_ESTIMATION_DESCRIPTION.split("\n\n").map(x => create("p", x)))));
 
     // Case no data
     if (backends.length == 0) {
@@ -56,11 +61,11 @@ export function Grover(runs: Run[]): HTMLElement {
         }
     })
 
-    // Line chart: `accuracy` vs. `n`
+    // Line chart: `fidelity` vs. `n`
     charts.append(LineChart(
-        createSeries("n", "accuracy", runs), {
+        createSeries("n", "fidelity", runs), {
         xlabel: "n",
-        ylabel: "Accuracy",
+        ylabel: "Fidelity",
         grid: true,
         width: 480,
         height: 320,

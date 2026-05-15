@@ -6,7 +6,7 @@ export function feat(elem: HTMLElement, ...content: ({ [key: string]: any } | st
     for (let i = 0; i < content.length; ++i) {
         const item = content[i];
 
-        if (typeof item === 'string') { elem.innerHTML = item; }
+        if (typeof item === 'string') { elem.insertAdjacentHTML("beforeend", item); }
         else if (item instanceof HTMLElement || item instanceof SVGElement) { elem.append(item); }
         else {
             for (const key in item) {

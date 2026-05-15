@@ -20,19 +20,9 @@ export type Run = {
 
 export function benchmarks(): Benchmark[] {
     return [
-        {
-            id: 0, name: "Grover", parameters: ["n"], metrics: [
-                "circuit_depths",
-                "circuit_widths",
-                "transpile_time",
-                "qpu_time",
-                "runtime",
-                "accuracy",
-                "entropy",
-            ]
-        },
+        { id: 0, name: "Grover", parameters: ["n"], metrics: ["circuit_depths", "circuit_widths", "transpile_time", "qpu_time", "runtime", "accuracy", "entropy"] },
         { id: 1, name: "Period finding", parameters: [], metrics: [] },
-        { id: 2, name: "Phase estimation", parameters: [], metrics: [] },
+        { id: 2, name: "Phase estimation", parameters: ["n"], metrics: ["fidelity", "entropy", "mean_squared_error", "qpu_time", "runtime", "transpile_time"] },
         { id: 3, name: "Bernstein-Vazirani", parameters: [], metrics: [] },
     ]
 }
@@ -49,7 +39,7 @@ export function backends(): Backend[] {
 }
 
 export async function loadRuns(benchmark: Benchmark, backends: Set<Backend>): Promise<Run[]> {
-    const data = await ((await fetch("data/grover.json")).json());
+    const data = await ((await fetch(`data/${benchmark.name}.json`)).json());
 
     const runs: Run[] = [];
 
