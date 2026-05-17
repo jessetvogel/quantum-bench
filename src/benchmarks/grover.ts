@@ -78,12 +78,12 @@ export function Grover(results: Result[]): HTMLElement {
         colors,
     }));
 
-    // Line chart: `runtime` vs. `n`
+    // Line chart: `run_time` vs. `n`
     charts.append(LineChart(
-        createSeries("n", "runtime", results), {
+        createSeries("n", "run_time", results), {
         yscale: "log",
         xlabel: "n",
-        ylabel: "Runtime (sec)",
+        ylabel: "Run time (sec)",
         grid: true,
         width: 480,
         height: 320,

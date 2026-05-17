@@ -1,0 +1,8 @@
+{
+	"id": "ibm_miami",
+	"name": "ibm_miami",
+	"description": "IBM quantum computer",
+	"type": "superconducting",
+	"chip": "Nighthawk",
+	"qubits": 120
+}

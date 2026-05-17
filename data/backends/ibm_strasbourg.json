@@ -1,0 +1,8 @@
+{
+	"id": "ibm_strasbourg",
+	"name": "ibm_strasbourg",
+	"description": "IBM quantum computer",
+	"type": "superconducting",
+	"chip": "Eagle",
+	"qubits": 127
+}
