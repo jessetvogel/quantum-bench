@@ -1,74 +1,79 @@
-export type Benchmark = {
-    id: number,
-    name: string,
-    parameters: string[],
-    metrics: string[],
-};
-
 export type Backend = {
-    id: number,
+    id: string,
     name: string,
+    description: string,
+    type: string,
+    chip: string,
+    qubits: number,
 };
 
-export type Run = {
-    id: number,
-    benchmark: Benchmark,
-    backend: Backend,
-    parameters: { [param: string]: string | number },
-    metrics: { [param: string]: string | number },
+export type Benchmark = {
+    id: string,
+    name: string,
+    description: string,
+    parameters: { [name: string]: string },
+    metrics: { [name: string]: string },
+};
+
+export type Result = {
+    benchmark: string,
+    backend: string,
+    parameters: { [name: string]: any },
+    metrics: { [name: string]: any },
+    datetime: string, // ISO 8601
+};
+
+// const DEFAULT_METRICS = ["circuit_depths", "circuit_widths", "transpile_time", "qpu_time", "runtime"];
+
+let data: {
+    backends: { [id: string]: Backend },
+    benchmarks: { [id: string]: Benchmark },
+    results: Result[],
+} | null = null;
+
+export function backends(): { [id: string]: Backend } {
+    if (data === null) return {};
+
+    return data.backends;
+
+    // return [
+    //     { id: 0, name: "qiskit_aer" },
+    //     { id: 1, name: "ibm_aachen" },
+    //     { id: 2, name: "ibm_berlin" },
+    //     { id: 3, name: "ibm_strasbourg" },
+    //     { id: 4, name: "ibm_brussels" },
+    //     { id: 5, name: "ibm_miami" },
+    // ]
 }
 
-const DEFAULT_METRICS = ["circuit_depths", "circuit_widths", "transpile_time", "qpu_time", "runtime"];
+export function benchmarks(): { [id: string]: Benchmark } {
+    if (data === null) return {};
 
-export function benchmarks(): Benchmark[] {
-    return [
-        { id: 0, name: "Grover", parameters: ["n"], metrics: [...DEFAULT_METRICS, "accuracy", "entropy"] },
-        { id: 1, name: "Period finding", parameters: ["n"], metrics: [...DEFAULT_METRICS, "accuracy"] },
-        { id: 2, name: "Phase estimation", parameters: ["n"], metrics: [...DEFAULT_METRICS, "fidelity", "entropy", "mean_squared_error"] },
-        { id: 3, name: "Bernstein-Vazirani", parameters: ["n"], metrics: [...DEFAULT_METRICS, "fidelity", "entropy"] },
-    ]
+    return data.benchmarks;
+
+    // return [
+    //     { id: 0, name: "Grover", parameters: ["n"], metrics: [...DEFAULT_METRICS, "accuracy", "entropy"] },
+    //     { id: 1, name: "Period finding", parameters: ["n"], metrics: [...DEFAULT_METRICS, "accuracy"] },
+    //     { id: 2, name: "Phase estimation", parameters: ["n"], metrics: [...DEFAULT_METRICS, "fidelity", "entropy", "mean_squared_error"] },
+    //     { id: 3, name: "Bernstein-Vazirani", parameters: ["n"], metrics: [...DEFAULT_METRICS, "fidelity", "entropy"] },
+    // ]
 }
 
-export function backends(): Backend[] {
-    return [
-        { id: 0, name: "qiskit_aer" },
-        { id: 1, name: "ibm_aachen" },
-        { id: 2, name: "ibm_berlin" },
-        { id: 3, name: "ibm_strasbourg" },
-        { id: 4, name: "ibm_brussels" },
-        { id: 5, name: "ibm_miami" },
-    ]
-}
+export function results(benchmark: string, backends: Set<string>): Result[] {
+    if (data === null) return [];
 
-export async function loadRuns(benchmark: Benchmark, backends: Set<Backend>): Promise<Run[]> {
-    const data = await ((await fetch(`data/${benchmark.name}.json`)).json());
+    const results: Result[] = [];
+    for (const result of data.results) {
+        if (result.benchmark != benchmark) continue;
+        if (![...backends].some(backend => backend == result.backend)) continue;
 
-    const runs: Run[] = [];
-
-    let id = 0;
-
-    for (const entry of data["data"]) {
-        const backend = findBackend(backends, entry["backend"]);
-        if (backend === null) continue;
-
-        runs.push({
-            id,
-            backend,
-            benchmark,
-            parameters: Object.fromEntries(benchmark.parameters.map(param => [param, entry[param]])),
-            metrics: Object.fromEntries(benchmark.metrics.map(metric => [metric, entry[metric]])),
-        });
-
-        id += 1;
+        results.push(result);
     }
 
-    return runs;
+    return results;
 }
 
-function findBackend(backends: Set<Backend>, name: string): Backend | null {
-    for (const backend of backends) {
-        if (backend.name == name)
-            return backend;
-    }
-    return null;
+export async function fetchData() {
+    const response = await fetch("data/data.json");
+    data = await response.json();
 }

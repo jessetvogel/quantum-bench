@@ -1,0 +1,11 @@
+{
+    "id": "bernstein-vazirani",
+    "name": "Bernstein-Vazirani",
+    "description": "Description of the benchmark here.",
+    "parameters": {
+        "n": "The number of qubits."
+    },
+    "metrics": {
+        "fidelity": "Fidelity."
+    }
+}

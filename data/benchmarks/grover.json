@@ -1,5 +1,6 @@
 {
-    "name": "grover",
+    "id": "grover",
+    "name": "Grover",
     "description": "Description of the benchmark here.",
     "parameters": {
         "n": "The number of qubits.",

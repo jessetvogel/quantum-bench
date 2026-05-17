@@ -1,0 +1,11 @@
+{
+    "id": "period-finding",
+    "name": "Period finding",
+    "description": "Description of the benchmark here.",
+    "parameters": {
+        "n": "The number of qubits."
+    },
+    "metrics": {
+        "accuracy": "The fraction of shots resulting in the period $r$."
+    }
+}

@@ -1,4 +1,5 @@
 {
+	"id": "ibm_aachen",
 	"name": "ibm_aachen",
 	"description": "IBM quantum computer",
 	"type": "superconducting",

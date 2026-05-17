@@ -1,4 +1,5 @@
 {
+    "id": "qiskit_aer",
     "name": "qiskit_aer",
     "description": "Simulator",
     "type": "simulator",

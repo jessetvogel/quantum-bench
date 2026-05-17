@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "compile-data": "node src/compile-data.ts"
+    "compile-data": "node src/scripts/compile-data.ts"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",

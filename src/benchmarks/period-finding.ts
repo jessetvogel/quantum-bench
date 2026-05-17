@@ -1,6 +1,6 @@
 // Code that creates the visualizations for Grover's algorithm specifically
 
-import type { Backend, Run } from "../data";
+import type { Result } from "../data";
 import { create } from "../html";
 import { LineChart, type Series } from "../plots/linechart";
 import { color } from "../plots/colors"
@@ -11,14 +11,14 @@ const PERIOD_FINDING_DESCRIPTION = `
 Write description about period finding.
 `;
 
-export function PeriodFinding(runs: Run[]): HTMLElement {
+export function PeriodFinding(results: Result[]): HTMLElement {
     const content = create("div");
 
     // Collect backends
-    const backends: Backend[] = [];
-    for (const run of runs) {
-        if (!backends.includes(run.backend)) {
-            backends.push(run.backend);
+    const backends: string[] = [];
+    for (const result of results) {
+        if (!backends.includes(result.backend)) {
+            backends.push(result.backend);
         }
     }
 
@@ -37,7 +37,7 @@ export function PeriodFinding(runs: Run[]): HTMLElement {
     }
 
     // Create legend
-    const colors = Object.fromEntries(backends.map((backend, i) => [backend.name, color(i)]));
+    const colors = Object.fromEntries(backends.map((backend, i) => [backend, color(i)]));
     const legend = Legend(colors);
     content.append(create("div", legend, { style: { "display": "flex", "justify-content": "center" } }));
 
@@ -53,7 +53,7 @@ export function PeriodFinding(runs: Run[]): HTMLElement {
 
     // Line chart: `accuracy` vs. `n`
     charts.append(LineChart(
-        createSeries("n", "accuracy", runs), {
+        createSeries("n", "accuracy", results), {
         xlabel: "n",
         ylabel: "Accuracy",
         grid: true,
@@ -64,7 +64,7 @@ export function PeriodFinding(runs: Run[]): HTMLElement {
 
     // Line chart: `runtime` vs. `n`
     charts.append(LineChart(
-        createSeries("n", "runtime", runs), {
+        createSeries("n", "runtime", results), {
         yscale: "log",
         xlabel: "n",
         ylabel: "Runtime (sec)",
@@ -76,7 +76,7 @@ export function PeriodFinding(runs: Run[]): HTMLElement {
 
     // Line chart: `qpu_time` vs. `n`
     charts.append(LineChart(
-        createSeries("n", "qpu_time", runs), {
+        createSeries("n", "qpu_time", results), {
         yscale: "log",
         xlabel: "n",
         ylabel: "QPU time (sec)",
@@ -91,14 +91,14 @@ export function PeriodFinding(runs: Run[]): HTMLElement {
     return content;
 }
 
-function createSeries(param: string, metric: string, runs: Run[]): Series {
+function createSeries(param: string, metric: string, results: Result[]): Series {
     const series: Series = {};
 
-    for (const run of runs) {
-        const name = run.backend.name;
+    for (const result of results) {
+        const name = result.backend;
 
-        const x = run.parameters[param] as number;
-        const y = run.metrics[metric] as number;
+        const x = result.parameters[param] as number;
+        const y = result.metrics[metric] as number;
 
         if (x === undefined || y === undefined) continue;
 

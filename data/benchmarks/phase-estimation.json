@@ -1,0 +1,13 @@
+{
+    "id": "phase-estimation",
+    "name": "Phase estimation",
+    "description": "Description of the benchmark here.",
+    "parameters": {
+        "phis": "List of phi values.",
+        "n": "The number of qubits."
+    },
+    "metrics": {
+        "fidelity": "Fidelity.",
+        "mean_squared_error": "Mean squared error."
+    }
+}

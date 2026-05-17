@@ -1,13 +1,13 @@
-import { backends, type Backend } from "./data";
+import { backends } from "./data";
 import { create } from "./html";
 import { Checkbox } from "./utils/checkbox";
 
 type Options = {
-    onchange?: (selected: Set<Backend>) => void,
+    onchange?: (selected: Set<string>) => void,
 };
 
 export function BackendList(options: Options = {}) {
-    const selected: Set<Backend> = new Set();
+    const selected: Set<string> = new Set();
 
     const list = create("div", {
         style: {
@@ -19,10 +19,10 @@ export function BackendList(options: Options = {}) {
 
     list.append(create("span", "Compare backends", { style: { "font-weight": "bold" } }))
 
-    for (const backend of backends()) {
+    for (const backend of Object.keys(backends())) {
         list.append(create("div",
             { style: { "font-family": "var(--font-mono)", "font-size": "0.875rem" } },
-            Checkbox(backend.name, {
+            Checkbox(backend, {
                 checked: true,
                 onclick: (checked) => {
                     if (checked) {

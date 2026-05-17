@@ -1,11 +1,10 @@
 import { BackendList } from "./backends";
 import { BenchmarkList } from "./benchmarks";
-import type { Backend, Benchmark } from "./data";
 import { create, feat } from "./html";
 import { setTheme } from "./theme";
 
 type Options = {
-    onchange?: (benchmark: Benchmark, backends: Set<Backend>) => void,
+    onchange?: (benchmark: string, backends: Set<string>) => void,
 };
 
 export function Menu(options: Options = {}): HTMLElement {
@@ -19,7 +18,7 @@ export function Menu(options: Options = {}): HTMLElement {
         }
     });
 
-    const ctx: { benchmark: Benchmark | null, backends: Set<Backend> } = { benchmark: null, backends: new Set() };
+    const ctx: { benchmark: string | null, backends: Set<string> } = { benchmark: null, backends: new Set() };
 
     menu.append(feat(BenchmarkList({
         onchange: (benchmark) => {

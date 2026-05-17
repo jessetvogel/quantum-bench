@@ -1,33 +1,11 @@
 import fs from "node:fs";
 import { join } from "node:path";
+import type { Backend, Benchmark, Result } from "../data";
 
 const PATH_BENCHMARKS = "./data/benchmarks";
 const PATH_BACKENDS = "./data/backends";
 const PATH_RESULTS = "./data/results";
 const PATH_OUTPUT = "./public/data/data.json"
-
-type Backend = {
-    name: string,
-    description: string,
-    type: string,
-    chip: string,
-    qubits: number,
-};
-
-type Benchmark = {
-    name: string,
-    description: string,
-    parameters: { [name: string]: string },
-    metrics: { [name: string]: string },
-};
-
-type Result = {
-    benchmark: string,
-    backend: string,
-    parameters: { [name: string]: any },
-    metrics: { [name: string]: any },
-    datetime: string, // ISO 8601
-};
 
 let anyErrors: boolean;
 
@@ -54,8 +32,8 @@ function parseBenchmarks(path: string): { [name: string]: Benchmark } {
         try {
             const data = fs.readFileSync(filepath, { encoding: "utf8" });
             const benchmark = parseBenchmark(JSON.parse(data));
-            if (benchmark.name in benchmarks) throw `benchmark with name '${benchmark.name}' already exists`;
-            benchmarks[benchmark.name] = benchmark;
+            if (benchmark.id in benchmarks) throw `benchmark with name '${benchmark.id}' already exists`;
+            benchmarks[benchmark.id] = benchmark;
         }
         catch (err) {
             errorInFile(filepath, err);
@@ -76,9 +54,9 @@ function parseBackends(path: string): { [name: string]: Backend } {
             const data = fs.readFileSync(filepath, { encoding: "utf8" });
             const backend = parseBackend(JSON.parse(data));
 
-            if (backend.name in backends) throw `backend with name '${backend.name}' already exists`;
+            if (backend.id in backends) throw `backend with name '${backend.id}' already exists`;
 
-            backends[backend.name] = backend;
+            backends[backend.id] = backend;
         } catch (err) {
             errorInFile(filepath, err);
         }
@@ -136,22 +114,24 @@ function parseResults(
 }
 
 function parseBenchmark(data: any): Benchmark {
+    const id = parseString(data, "id");
     const name = parseString(data, "name");
     const description = parseString(data, "description");
     const parameters = parseObjectString(data, "parameters");
     const metrics = parseObjectString(data, "metrics");
 
-    return { name, description, parameters, metrics }
+    return { id, name, description, parameters, metrics }
 }
 
 function parseBackend(data: any): Backend {
+    const id = parseString(data, "id");
     const name = parseString(data, "name");
     const description = parseString(data, "description");
     const type = parseString(data, "type");
     const chip = parseString(data, "chip");
     const qubits = parseNumber(data, "qubits");
 
-    return { name, description, type, chip, qubits }
+    return { id, name, description, type, chip, qubits }
 }
 
 function parseResult(data: any): Result {

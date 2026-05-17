@@ -1,8 +1,8 @@
-import { benchmarks, type Benchmark } from "./data";
+import { benchmarks } from "./data";
 import { create } from "./html";
 
 type Options = {
-    onchange?: (selected: Benchmark) => void,
+    onchange?: (selected: string) => void,
 };
 
 export function BenchmarkList(options: Options = {}) {
@@ -17,12 +17,12 @@ export function BenchmarkList(options: Options = {}) {
         create("span", "Select benchmark", { style: { "font-weight": "bold" } })
     );
 
-    const benchs = Object.fromEntries(benchmarks().map(b => [b.name, b]));
+    const benchs = benchmarks();
     const select = create("select", {
         "@change": () => {
             if (select.value in benchs)
-                options.onchange?.(benchs[select.value])
-            else
+                options.onchange?.(select.value)
+            else // FIXME
                 options.onchange?.("summary" as any)
         }
     }) as HTMLSelectElement;

@@ -3,7 +3,7 @@ import './style.css';
 import './fonts.css';
 
 import { create, feat, clear } from './html';
-import { benchmarks, loadRuns, type Backend, type Benchmark, type Run } from './data';
+import { benchmarks, fetchData, results } from './data';
 import { Grover } from './benchmarks/grover';
 import { Menu } from './menu';
 import { initTheme } from './theme';
@@ -12,80 +12,85 @@ import { Summary } from './benchmarks/summary';
 import { PeriodFinding } from './benchmarks/period-finding';
 import { BernsteinVazirani } from './benchmarks/bernstein-vazirani';
 
-initTheme();
+async function init() {
+    // Initialize theme
+    initTheme();
 
-const app = document.querySelector<HTMLDivElement>("#app")!;
+    // Fetch data
+    await fetchData();
 
-const content = create("div", {
-    style: {
-        "grid-row": "1 / 2",
-        "grid-column": "2 / 3",
-        "margin-bottom": "32px",
+    // Create app
+    const app = document.querySelector<HTMLDivElement>("#app")!;
 
-    }
-});
-
-app.append(create("div", "Quantum Bench", { id: "title" }));
-
-app.append(create("div",
-    {
-        id: "grid",
-        class: "debug-grid",
+    const content = create("div", {
         style: {
-            "display": "grid",
-            "grid-template-columns": "224px auto",
-            "grid-template-rows": "auto",
-            "gap": "32px",
-            "max-width": "1280px",
-            "margin": "0px auto",
-        }
-    },
-    feat(Menu({ onchange: (benchmark, backends) => update(content, benchmark, backends) }), {
-        style: { "grid-row": "1 / 2", "grid-column": "1 / 2", "align-self": "start" }
-    }),
-    content
-));
+            "grid-row": "1 / 2",
+            "grid-column": "2 / 3",
+            "margin-bottom": "32px",
 
-async function update(content: HTMLElement, benchmark: Benchmark | "summary", backends: Set<Backend>) {
+        }
+    });
+
+    app.append(create("div", "Quantum Bench", { id: "title" }));
+
+    app.append(create("div",
+        {
+            id: "grid",
+            class: "debug-grid",
+            style: {
+                "display": "grid",
+                "grid-template-columns": "224px auto",
+                "grid-template-rows": "auto",
+                "gap": "32px",
+                "max-width": "1280px",
+                "margin": "0px auto",
+            }
+        },
+        feat(Menu({ onchange: (benchmark, backends) => update(content, benchmark, backends) }), {
+            style: { "grid-row": "1 / 2", "grid-column": "1 / 2", "align-self": "start" }
+        }),
+        content
+    ));
+}
+
+async function update(content: HTMLElement, benchmark: string, backends: Set<string>) {
     if (benchmark == "summary") {
-        const runs: Run[] = [];
-        for (const benchmark of benchmarks()) {
-            runs.push(...await loadRuns(benchmark, backends))
+        const r = [];
+        for (const benchmark of Object.keys(benchmarks())) {
+            r.push(...results(benchmark, backends))
         }
         clear(content); // note: clearing after creating prevents flickering
-        content.append(Summary(runs));
+        content.append(Summary(r));
         return;
     }
 
-    if (benchmark.name == "Grover") {
-        const runs = await loadRuns(benchmark, backends);
-        const c = Grover(runs);
+    if (benchmark == "grover") {
+        const c = Grover(results(benchmark, backends));
         clear(content); // note: clearing after creating prevents flickering
         content.append(c);
         return;
     }
 
-    if (benchmark.name == "Phase estimation") {
-        const runs = await loadRuns(benchmark, backends);
-        const c = PhaseEstimation(runs);
+    if (benchmark == "phase-estimation") {
+        const c = PhaseEstimation(results(benchmark, backends));
         clear(content); // note: clearing after creating prevents flickering
         content.append(c);
         return;
     }
 
-    if (benchmark.name == "Period finding") {
-        const runs = await loadRuns(benchmark, backends);
-        const c = PeriodFinding(runs);
+    if (benchmark == "period-finding") {
+        const c = PeriodFinding(results(benchmark, backends));
         clear(content); // note: clearing after creating prevents flickering
         content.append(c);
         return;
     }
 
-    if (benchmark.name == "Bernstein-Vazirani") {
-        const runs = await loadRuns(benchmark, backends);
-        const c = BernsteinVazirani(runs);
+    if (benchmark == "bernstein-vazirani") {
+        const c = BernsteinVazirani(results(benchmark, backends));
         clear(content); // note: clearing after creating prevents flickering
         content.append(c);
         return;
     }
 }
+
+init();

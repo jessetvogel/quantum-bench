@@ -1,10 +1,10 @@
-import type { Backend, Run } from "../data";
+import type { Result } from "../data";
 import { create } from "../html";
 import { color } from "../plots/colors";
 import { Legend } from "../plots/legend";
 import { LineChart, type Series } from "../plots/linechart";
 
-export function Summary(runs: Run[]): HTMLElement {
+export function Summary(results: Result[]): HTMLElement {
     const content = create("div");
 
     // Add description
@@ -13,15 +13,15 @@ export function Summary(runs: Run[]): HTMLElement {
     }, create("p", "Considering the runs from all benchmarks, some statistics can be derived.")));
 
     // Collect backends
-    const backends: Backend[] = [];
-    for (const run of runs) {
-        if (!backends.includes(run.backend)) {
-            backends.push(run.backend);
+    const backends: string[] = [];
+    for (const result of results) {
+        if (!backends.includes(result.backend)) {
+            backends.push(result.backend);
         }
     }
 
     // Create legend
-    const colors = Object.fromEntries(backends.map((backend, i) => [backend.name, color(i)]));
+    const colors = Object.fromEntries(backends.map((backend, i) => [backend, color(i)]));
     const legend = Legend(colors);
     content.append(create("div", legend, { style: { "display": "flex", "justify-content": "center" } }));
 
@@ -37,7 +37,7 @@ export function Summary(runs: Run[]): HTMLElement {
 
     // Line chart: `QPU time` vs. `circuit depth`
     charts.append(LineChart(
-        createSeries("qpu_time", runs), {
+        createSeries("qpu_time", results), {
         xlabel: "Circuit depth",
         ylabel: "QPU time (sec)",
         // xscale: "log",
@@ -50,7 +50,7 @@ export function Summary(runs: Run[]): HTMLElement {
 
     // Line chart: `entropy` vs. `circuit depth`
     charts.append(LineChart(
-        createSeries("entropy", runs), {
+        createSeries("entropy", results), {
         xlabel: "Circuit depth",
         ylabel: "Entropy",
         grid: true,
@@ -65,14 +65,14 @@ export function Summary(runs: Run[]): HTMLElement {
 }
 
 
-function createSeries(metric: string, runs: Run[]): Series {
+function createSeries(metric: string, results: Result[]): Series {
     const series: Series = {};
 
-    for (const run of runs) {
-        const name = run.backend.name;
+    for (const result of results) {
+        const name = result.backend;
 
-        const x = run.metrics["circuit_depths"] as number;
-        const y = run.metrics[metric] as number;
+        const x = result.metrics["circuit_depths"] as number;
+        const y = result.metrics[metric] as number;
 
         if (x === undefined || y === undefined) continue;
 
