@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { join, dirname } from "node:path";
+import { join } from "node:path";
 
 const PATH_BENCHMARKS = "./data/benchmarks";
 const PATH_BACKENDS = "./data/backends";
@@ -210,8 +210,6 @@ function parseDatetime(data: any, key: string): string {
 
 function writeJSON(path: string, data: any) {
     try {
-        const dir = dirname(path);
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir);
         fs.writeFileSync(path, JSON.stringify(data))
     } catch (err) {
         error(`failed to write to '\x1b[30m${path}\x1b[0m': ${err}`)
