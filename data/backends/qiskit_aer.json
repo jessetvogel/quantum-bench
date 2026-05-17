@@ -1,0 +1,7 @@
+{
+    "name": "qiskit_aer",
+    "description": "Simulator",
+    "type": "simulator",
+    "chip": "CPU",
+    "qubits": 28
+}

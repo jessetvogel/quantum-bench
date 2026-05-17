@@ -1,0 +1,7 @@
+{
+	"name": "ibm_aachen",
+	"description": "IBM quantum computer",
+	"type": "superconducting",
+	"chip": "Heron r2",
+	"qubits": 156
+}

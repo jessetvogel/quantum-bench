@@ -1,0 +1,11 @@
+{
+    "name": "grover",
+    "description": "Description of the benchmark here.",
+    "parameters": {
+        "n": "The number of qubits.",
+        "s": "The secret of length n."
+    },
+    "metrics": {
+        "accuracy": "The fraction of shots resulting in the secret $s$."
+    }
+}
