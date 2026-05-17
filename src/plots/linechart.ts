@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 import { color } from "./colors";
+import { helpIcon as addHelpIcon } from "../tooltip";
+import { create } from "../html";
 
 export type Series = {
     [key: string]: { x: number, y: number }[],
@@ -10,6 +12,7 @@ type Options = {
     height?: number,
     xlabel?: string,
     ylabel?: string,
+    ytooltip?: string,
     xscale?: "linear" | "log",
     yscale?: "linear" | "log",
     grid?: boolean,
@@ -139,15 +142,22 @@ export function LineChart(
 
     // y-label
     if (options?.ylabel) {
+        const y = margin.top + (height - margin.top - margin.bottom) / 2;
         svg.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("x", -(margin.top + (height - margin.top - margin.bottom) / 2))
-            .attr("y", 15)
+            .attr("x", -y)
+            .attr("y", 12)
             .attr("fill", "currentColor")
             .attr("text-anchor", "middle")
             .style("font-size", "1rem")
             .style("font-weight", "bold")
             .text(options.ylabel);
+
+        // y-tooltip
+        if (options?.ytooltip) {
+            const textWidth = computeTextWidth("var(--font-main)", "1rem", options.ylabel);
+            addHelpIcon(svg, 8, y - textWidth / 2 - 24, options.ytooltip);
+        }
     }
 
     if (options.legend) {
@@ -189,4 +199,18 @@ function xdomain(series: Series): [number, number] {
 function ydomain(series: Series): [number, number] {
     const allY = Object.values(series).flatMap(s => s.map(d => d.y));
     return d3.extent(allY) as [number, number];
+}
+
+function computeTextWidth(fontFace: string, fontSize: string, text: string): number {
+    const span = create("span", text, {
+        style: {
+            "visibility": "hidden",
+            "font-face": fontFace,
+            "font-size": fontSize,
+        }
+    });
+    document.body.append(span);
+    const width = span.offsetWidth;
+    span.remove();
+    return width;
 }

@@ -55,18 +55,17 @@ export function PageBenchmark(benchmark: Benchmark, results: Result[], options: 
     // Add visualizations
     for (const vis of visualizations(benchmark.id)) {
         if (vis.type == "linechart") {
-            const chart = LineChart(
-                createSeries(vis.x, vis.y, results), {
+            const opt = {
                 ...vis.options,
-                ...{
-                    grid: true,
-                    width: 480,
-                    height: 320,
-                    colors,
-                    animate: options.animate || false,
-                }
-            });
-            charts.append(chart);
+                grid: true,
+                width: 480,
+                height: 320,
+                colors,
+                animate: options.animate || false,
+                ytooltip: benchmark.metrics[vis.y],
+            };
+
+            charts.append(LineChart(createSeries(vis.x, vis.y, results), opt));
         }
     }
 
