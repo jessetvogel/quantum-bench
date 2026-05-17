@@ -1,5 +1,3 @@
-// Code that creates the visualizations for Grover's algorithm specifically
-
 import type { Benchmark, Result } from "../data";
 import { create } from "../html";
 import { LineChart, type Series } from "../plots/linechart";
@@ -68,41 +66,6 @@ export function PageBenchmark(benchmark: Benchmark, results: Result[], options: 
             charts.append(LineChart(createSeries(vis.x, vis.y, results), opt));
         }
     }
-
-    // // Line chart: `entropy` vs. `n`
-    // charts.append(LineChart(
-    //     createSeries("n", "entropy", results), {
-    //     xlabel: "n",
-    //     ylabel: "Entropy",
-    //     grid: true,
-    //     width: 480,
-    //     height: 320,
-    //     colors,
-    // }));
-
-    // // Line chart: `run_time` vs. `n`
-    // charts.append(LineChart(
-    //     createSeries("n", "run_time", results), {
-    //     yscale: "log",
-    //     xlabel: "n",
-    //     ylabel: "Run time (sec)",
-    //     grid: true,
-    //     width: 480,
-    //     height: 320,
-    //     colors,
-    // }));
-
-    // // Line chart: `qpu_time` vs. `n`
-    // charts.append(LineChart(
-    //     createSeries("n", "qpu_time", results), {
-    //     yscale: "log",
-    //     xlabel: "n",
-    //     ylabel: "QPU time (sec)",
-    //     grid: true,
-    //     width: 480,
-    //     height: 320,
-    //     colors,
-    // }));
 
     content.append(charts);
 
