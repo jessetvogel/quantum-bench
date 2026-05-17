@@ -70,34 +70,6 @@ async function update(content: HTMLElement, benchmark: string, backends: Set<str
     content.append(c);
 
     previousBenchmark = benchmark;
-
-    // if (benchmark == "grover") {
-    //     const c = Grover(results(benchmark, backends));
-    //     clear(content); // note: clearing after creating prevents flickering
-    //     content.append(c);
-    //     return;
-    // }
-
-    // if (benchmark == "phase-estimation") {
-    //     const c = PhaseEstimation(results(benchmark, backends));
-    //     clear(content); // note: clearing after creating prevents flickering
-    //     content.append(c);
-    //     return;
-    // }
-
-    // if (benchmark == "period-finding") {
-    //     const c = PeriodFinding(results(benchmark, backends));
-    //     clear(content); // note: clearing after creating prevents flickering
-    //     content.append(c);
-    //     return;
-    // }
-
-    // if (benchmark == "bernstein-vazirani") {
-    //     const c = BernsteinVazirani(results(benchmark, backends));
-    //     clear(content); // note: clearing after creating prevents flickering
-    //     content.append(c);
-    //     return;
-    // }
 }
 
 init();

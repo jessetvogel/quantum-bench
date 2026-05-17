@@ -8,9 +8,10 @@ export function Summary(results: Result[]): HTMLElement {
     const content = create("div");
 
     // Add description
-    content.append(create("div", {
-        style: { "max-width": "50em", "margin": "0px auto" }
-    }, create("p", "Considering the runs from all benchmarks, some statistics can be derived.")));
+    content.append(create("div",
+        { style: { "margin": "0px auto" } },
+        create("p", "Considering the runs from all benchmarks, some statistics can be derived."))
+    );
 
     // Collect backends
     const backends: string[] = [];
@@ -64,30 +65,41 @@ export function Summary(results: Result[]): HTMLElement {
     return content;
 }
 
-
 function createSeries(metric: string, results: Result[]): Series {
     const series: Series = {};
 
     for (const result of results) {
         const name = result.backend;
 
-        const x = result.metrics["circuit_depths"] as number;
+        const x = result.metrics["circuit_depth"] as number;
         const y = result.metrics[metric] as number;
 
         if (x === undefined || y === undefined) continue;
 
         if (!(name in series)) series[name] = [];
 
-        let xs = (x as any) as number[];
+        if (Array.isArray(x) && Array.isArray(y)) {
+            for (let i = 0; i < x.length; ++i) {
+                series[name].push({ x: x[i], y: y[i] });
+            }
+            continue;
+        }
 
-        // if (xs.length > 1) continue;
+        if (Array.isArray(x) && !Array.isArray(y)) {
+            for (let i = 0; i < x.length; ++i) {
+                series[name].push({ x: x[i], y });
+            }
+            continue;
+        }
 
-        series[name].push({ x: xs[0], y: y / xs.length });
+        series[name].push({ x, y });
     }
 
     for (const name in series) {
         series[name].sort((a, b) => a.x - b.x);
     }
+
+    console.log(series);
 
     return series;
 }
