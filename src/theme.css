@@ -59,7 +59,7 @@ body {
 
 body.dark {
     /* Background, text colors, borders */
-    --bg-dark: #1d1c1c;
+    --bg-dark: #151515;
     --bg: #252524;
     --bg-light: #3d3c3a;
     --bg-extra-light: #5b5a57;

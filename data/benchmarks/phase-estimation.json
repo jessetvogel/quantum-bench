@@ -1,7 +1,7 @@
 {
     "id": "phase-estimation",
     "name": "Phase estimation",
-    "description": "Description of the benchmark here.",
+    "description": "Given a phase $\\phi \\in \\{0.123, 0.456, 0.789\\}$, the task is to estimate $\\phi$ to $n$ bits of precision using the quantum phase estimation algorithm.\n\nThe unitary $U = R_Z(2\\pi \\phi) = \\begin{pmatrix} e^{-2\\pi i \\phi} & 0 \\\\ 0 & e^{2\\pi i \\phi} \\end{pmatrix}$ is used together with the eigenvector $\\ket{1}$, which has eigenvalue $\\lambda = e^{2\\pi i \\phi}$.\n\nFor each integer $j = 0, \\dots, N - 1$, the controlled-$U^j$ operation is implemented using a sequence of controlled rotation gates. The circuit is executed for 1,000 shots for each value of $\\phi$.\n\nThe fidelity measures how closely the observed bitstring distribution matches the ideal theoretical distribution. The mean squared error measures the average squared difference between the true phase $\\phi$ and the estimated phase $\\hat{\\phi}$ reconstructed from the measured bitstrings.",
     "parameters": {
         "phis": "List of phi values.",
         "n": "The number of qubits."

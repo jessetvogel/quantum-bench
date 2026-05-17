@@ -1,17 +1,18 @@
 // Code that creates the visualizations for Grover's algorithm specifically
 
-import type { Result } from "../data";
+import type { Benchmark, Result } from "../data";
 import { create } from "../html";
 import { LineChart, type Series } from "../plots/linechart";
 import { color } from "../plots/colors"
 import { Legend } from "../plots/legend";
 import { katex } from "../katex";
+import { visualizations } from "./plots";
 
-const PERIOD_FINDING_DESCRIPTION = `
-Write description about period finding.
-`;
+type Options = {
+    animate?: boolean;
+};
 
-export function PeriodFinding(results: Result[]): HTMLElement {
+export function PageBenchmark(benchmark: Benchmark, results: Result[], options: Options = {}): HTMLElement {
     const content = create("div");
 
     // Collect backends
@@ -24,8 +25,8 @@ export function PeriodFinding(results: Result[]): HTMLElement {
 
     // Add description
     content.append(katex(create("div", {
-        style: { "max-width": "50em", "margin": "0px auto" }
-    }, ...PERIOD_FINDING_DESCRIPTION.split("\n\n").map(x => create("p", x)))));
+        style: { "margin": "0px auto" }
+    }, ...benchmark.description.split("\n\n").map(x => create("p", x)))));
 
     // Case no data
     if (backends.length == 0) {
@@ -51,40 +52,58 @@ export function PeriodFinding(results: Result[]): HTMLElement {
         }
     })
 
-    // Line chart: `accuracy` vs. `n`
-    charts.append(LineChart(
-        createSeries("n", "accuracy", results), {
-        xlabel: "n",
-        ylabel: "Accuracy",
-        grid: true,
-        width: 480,
-        height: 320,
-        colors,
-    }));
+    // Add visualizations
+    for (const vis of visualizations(benchmark.id)) {
+        if (vis.type == "linechart") {
+            const chart = LineChart(
+                createSeries(vis.x, vis.y, results), {
+                ...vis.options,
+                ...{
+                    grid: true,
+                    width: 480,
+                    height: 320,
+                    colors,
+                    animate: options.animate || false,
+                }
+            });
+            charts.append(chart);
+        }
+    }
 
-    // Line chart: `run_time` vs. `n`
-    charts.append(LineChart(
-        createSeries("n", "run_time", results), {
-        yscale: "log",
-        xlabel: "n",
-        ylabel: "Run time (sec)",
-        grid: true,
-        width: 480,
-        height: 320,
-        colors,
-    }));
+    // // Line chart: `entropy` vs. `n`
+    // charts.append(LineChart(
+    //     createSeries("n", "entropy", results), {
+    //     xlabel: "n",
+    //     ylabel: "Entropy",
+    //     grid: true,
+    //     width: 480,
+    //     height: 320,
+    //     colors,
+    // }));
 
-    // Line chart: `qpu_time` vs. `n`
-    charts.append(LineChart(
-        createSeries("n", "qpu_time", results), {
-        yscale: "log",
-        xlabel: "n",
-        ylabel: "QPU time (sec)",
-        grid: true,
-        width: 480,
-        height: 320,
-        colors,
-    }));
+    // // Line chart: `run_time` vs. `n`
+    // charts.append(LineChart(
+    //     createSeries("n", "run_time", results), {
+    //     yscale: "log",
+    //     xlabel: "n",
+    //     ylabel: "Run time (sec)",
+    //     grid: true,
+    //     width: 480,
+    //     height: 320,
+    //     colors,
+    // }));
+
+    // // Line chart: `qpu_time` vs. `n`
+    // charts.append(LineChart(
+    //     createSeries("n", "qpu_time", results), {
+    //     yscale: "log",
+    //     xlabel: "n",
+    //     ylabel: "QPU time (sec)",
+    //     grid: true,
+    //     width: 480,
+    //     height: 320,
+    //     colors,
+    // }));
 
     content.append(charts);
 
@@ -98,9 +117,13 @@ function createSeries(param: string, metric: string, results: Result[]): Series 
         const name = result.backend;
 
         const x = result.parameters[param] as number;
-        const y = result.metrics[metric] as number;
+        let y = result.metrics[metric] as number;
 
         if (x === undefined || y === undefined) continue;
+
+        if (metric == "qpu_time" && Array.isArray(y)) {
+            y = y.reduce((sum, num) => sum + num, 0.0);
+        }
 
         if (!(name in series)) series[name] = [];
 

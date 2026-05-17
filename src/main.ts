@@ -4,13 +4,10 @@ import './fonts.css';
 
 import { create, feat, clear } from './html';
 import { benchmarks, fetchData, results } from './data';
-import { Grover } from './benchmarks/grover';
 import { Menu } from './menu';
 import { initTheme } from './theme';
-import { PhaseEstimation } from './benchmarks/phase-estimation';
 import { Summary } from './benchmarks/summary';
-import { PeriodFinding } from './benchmarks/period-finding';
-import { BernsteinVazirani } from './benchmarks/bernstein-vazirani';
+import { PageBenchmark } from './benchmarks/page-benchmark';
 
 async function init() {
     // Initialize theme
@@ -27,7 +24,7 @@ async function init() {
             "grid-row": "1 / 2",
             "grid-column": "2 / 3",
             "margin-bottom": "32px",
-
+            "padding": "0px 32px",
         }
     });
 
@@ -41,7 +38,6 @@ async function init() {
                 "display": "grid",
                 "grid-template-columns": "224px auto",
                 "grid-template-rows": "auto",
-                "gap": "32px",
                 "max-width": "1280px",
                 "margin": "0px auto",
             }
@@ -52,6 +48,8 @@ async function init() {
         content
     ));
 }
+
+let previousBenchmark: string = "";
 
 async function update(content: HTMLElement, benchmark: string, backends: Set<string>) {
     if (benchmark == "summary") {
@@ -64,33 +62,42 @@ async function update(content: HTMLElement, benchmark: string, backends: Set<str
         return;
     }
 
-    if (benchmark == "grover") {
-        const c = Grover(results(benchmark, backends));
-        clear(content); // note: clearing after creating prevents flickering
-        content.append(c);
-        return;
-    }
+    const b = benchmarks()[benchmark];
+    const r = results(benchmark, backends);
 
-    if (benchmark == "phase-estimation") {
-        const c = PhaseEstimation(results(benchmark, backends));
-        clear(content); // note: clearing after creating prevents flickering
-        content.append(c);
-        return;
-    }
+    const c = PageBenchmark(b, r, { animate: benchmark != previousBenchmark });
+    clear(content); // note: clearing after creating prevents flickering
+    content.append(c);
 
-    if (benchmark == "period-finding") {
-        const c = PeriodFinding(results(benchmark, backends));
-        clear(content); // note: clearing after creating prevents flickering
-        content.append(c);
-        return;
-    }
+    previousBenchmark = benchmark;
 
-    if (benchmark == "bernstein-vazirani") {
-        const c = BernsteinVazirani(results(benchmark, backends));
-        clear(content); // note: clearing after creating prevents flickering
-        content.append(c);
-        return;
-    }
+    // if (benchmark == "grover") {
+    //     const c = Grover(results(benchmark, backends));
+    //     clear(content); // note: clearing after creating prevents flickering
+    //     content.append(c);
+    //     return;
+    // }
+
+    // if (benchmark == "phase-estimation") {
+    //     const c = PhaseEstimation(results(benchmark, backends));
+    //     clear(content); // note: clearing after creating prevents flickering
+    //     content.append(c);
+    //     return;
+    // }
+
+    // if (benchmark == "period-finding") {
+    //     const c = PeriodFinding(results(benchmark, backends));
+    //     clear(content); // note: clearing after creating prevents flickering
+    //     content.append(c);
+    //     return;
+    // }
+
+    // if (benchmark == "bernstein-vazirani") {
+    //     const c = BernsteinVazirani(results(benchmark, backends));
+    //     clear(content); // note: clearing after creating prevents flickering
+    //     content.append(c);
+    //     return;
+    // }
 }
 
 init();

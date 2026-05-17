@@ -14,6 +14,7 @@ type Options = {
     yscale?: "linear" | "log",
     grid?: boolean,
     legend?: boolean,
+    animate?: boolean,
     colors?: { [key: string]: string },
 };
 
@@ -98,16 +99,18 @@ export function LineChart(
             .style("opacity", 0.5);
 
         // Animate line
-        const totalLength = path.node()!.getTotalLength();
+        if (options.animate) {
+            const totalLength = path.node()!.getTotalLength();
 
-        path
-            .attr("stroke-dasharray", totalLength)
-            .attr("stroke-dashoffset", totalLength);
+            path
+                .attr("stroke-dasharray", totalLength)
+                .attr("stroke-dashoffset", totalLength);
 
-        path.transition()
-            .duration(1000)
-            .ease(d3.easeLinear)
-            .attr("stroke-dashoffset", 0);
+            path.transition()
+                .duration(1000)
+                .ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0);
+        }
     }
 
     // x-axis
