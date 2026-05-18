@@ -18,14 +18,12 @@ async function init() {
     // Create app
     const app = document.querySelector<HTMLDivElement>("#app")!;
 
-    const content = create("div", {
-        style: {
-            "grid-row": "1 / 2",
-            "grid-column": "2 / 3",
-            "margin-bottom": "32px",
-            "padding": "0px 32px",
-        }
-    });
+    const content = create("div",
+        { style: { "grid-row": "1 / 2", "grid-column": "2 / 3", "margin-bottom": "32px", "padding": "0px 32px" } },
+        create("p", { style: { "font-style": "italic" } }, `This site shows the results of a number of benchmarks that were run on a number of quantum backends.`),
+        create("p", { style: { "font-style": "italic" } }, `Select a benchmark in the menu on the left to view the results.`),
+        create("p", { style: { "font-style": "italic" } }, `Note that this page is still a work in progress. For any ideas or feedback, please contact Jesse.`)
+    );
 
     app.append(create("div", "Quantum Bench", { id: "title" }));
 
