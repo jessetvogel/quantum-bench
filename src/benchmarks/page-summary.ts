@@ -132,8 +132,6 @@ function createSeries(metric: string, results: Result[]): Series {
         series[name].sort((a, b) => a.x - b.x);
     }
 
-    console.log(series);
-
     return series;
 }
 
