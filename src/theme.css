@@ -122,7 +122,31 @@ p {
     text-align: justify;
 }
 
+a {
+    color: var(--blue);
+    /* text-decoration-style: dashed; */
+    /* text-decoration-thickness: 1px; */
+}
+
+table {
+    border-collapse: collapse;
+    margin: 32px auto;
+}
+
+table,
+tr,
+th,
+td {
+    border: 1px solid var(--border);
+}
+
+th,
+td {
+    padding: 4px 8px;
+}
+
 /* KaTeX */
 .katex {
     font-size: 1em !important;
+    white-space: nowrap;
 }

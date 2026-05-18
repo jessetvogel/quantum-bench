@@ -1,13 +1,13 @@
 {
     "id": "phase-estimation",
     "name": "Phase estimation",
-    "description": "Given a phase $\\phi \\in \\{0.123, 0.456, 0.789\\}$, the task is to estimate $\\phi$ to $n$ bits of precision using the quantum phase estimation algorithm.\n\nThe unitary $U = R_Z(2\\pi \\phi) = \\begin{pmatrix} e^{-2\\pi i \\phi} & 0 \\\\ 0 & e^{2\\pi i \\phi} \\end{pmatrix}$ is used together with the eigenvector $\\ket{1}$, which has eigenvalue $\\lambda = e^{2\\pi i \\phi}$.\n\nFor each integer $j = 0, \\dots, N - 1$, the controlled-$U^j$ operation is implemented using a sequence of controlled rotation gates. The circuit is executed for 1,000 shots for each value of $\\phi$.\n\nThe fidelity measures how closely the observed bitstring distribution matches the ideal theoretical distribution. The mean squared error measures the average squared difference between the true phase $\\phi$ and the estimated phase $\\hat{\\phi}$ reconstructed from the measured bitstrings.",
+    "description": "Given parameters $n \\ge 1$ and $\\phi \\in [0, 1]$, this benchmark uses <a target='_blank' href='https://jessetvogel.nl/quantum-glossary/#COM:kitaev-phase-estimation-algorithm'>quantum phase estimation</a> to estimate $\\phi$ to $n$ bits of precision. The phase estimation algorithm is applied to the unitary $U = R_Z(2\\pi \\phi) = \\left( \\begin{smallmatrix} e^{-2\\pi i \\phi} & 0 \\\\ 0 & e^{2\\pi i \\phi} \\end{smallmatrix} \\right)$ with eigenvector $\\ket{1}$. For each $j = 0, \\dots, 2^n - 1$, the controlled-$U^j$ operation is implemented using a sequence of controlled rotation gates. The algorithm is run for 1,000 shots.\n\nThe fidelity measures how closely the distribution of measured bitstrings matches the theoretical distribution. The mean squared error measures the average of squared differences between the true phase $\\phi$ and the estimated phase $\\hat{\\phi}$ reconstructed from the measured bitstrings.",
     "parameters": {
         "phis": "List of phi values.",
         "n": "The number of qubits."
     },
     "metrics": {
-        "fidelity": "Fidelity.",
-        "mean_squared_error": "Mean squared error."
+        "fidelity": "The fidelity between the measured distribution of bitstrings and the theoretical distribution.",
+        "mean_squared_error": "Average of squared differences between the true phase $\\phi$ and the estimated phase $\\hat{\\phi}$."
     }
 }

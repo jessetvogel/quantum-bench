@@ -28,7 +28,7 @@ export function BenchmarkList(options: Options = {}) {
     }) as HTMLSelectElement;
 
     select.append(
-        create("option", "-", { disabled: true, selected: true }),
+        create("option", "-", { disabled: true, selected: true }, { style: { "display": "none", "visibility": "hidden" } }),
         ...Object.keys(benchs).map(name => create("option", name, { value: name })),
         create("option", "────────────────", { disabled: true, style: "line-height: 1px;" }),
         create("option", "Summary")

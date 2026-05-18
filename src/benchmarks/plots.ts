@@ -37,6 +37,7 @@ export function visualizations(benchmark: string): Visualization[] {
     if (benchmark == "phase-estimation") {
         return [
             { type: "linechart", x: "n", y: "fidelity", options: { xlabel: "n", ylabel: "Fidelity" } },
+            { type: "linechart", x: "n", y: "mean_squared_error", options: { xlabel: "n", ylabel: "Mean squared error" } },
             { type: "linechart", x: "n", y: "entropy", options: { xlabel: "n", ylabel: "Entropy" } },
             { type: "linechart", x: "n", y: "run_time", options: { xlabel: "n", ylabel: "Run time (sec)", yscale: "log" } },
             { type: "linechart", x: "n", y: "qpu_time", options: { xlabel: "n", ylabel: "QPU time (sec)", yscale: "log" } },

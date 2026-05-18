@@ -1,11 +1,11 @@
 {
     "id": "grover",
     "name": "Grover",
-    "description": "For each integer $n \\ge 2$, a secret bitstring $s \\in \\{0,1\\}^n$ is chosen, from which an $n$-qubit oracle $\\mathcal{O}$ is constructed defined by $\\mathcal{O}\\ket{s} = -\\ket{s}$ and $\\mathcal{O}\\ket{i} = \\ket{i}$ for all $i \\ne s$.\n\nThis benchmark executes Grover's search algorithm for 1,000 shots and measures how often the correct secret string is returned.\n\nThe reported accuracy is the fraction of shots that produce the secret $s$. Note that, even an ideal quantum computer will generally not achieve an accuracy of exactly $1$, since Grover's algorithm is probabilistic. However, the theoretical success probability is always very close to $1$.",
+    "description": "Given parameters $n \\ge 2$ and $s \\in \\{0, 1\\}^n$, this benchmark uses <a target='_blank' href='https://jessetvogel.nl/quantum-glossary/#COM:grover-search-algorithm'>Grover's algorithm</a> to find $s$, using the $n$-qubit oracle $\\mathcal{O}$ defined by $\\mathcal{O}\\ket{s} = -\\ket{s}$ and $\\mathcal{O}\\ket{i} = \\ket{i}$ for all $i \\ne s$. The algorithm is run for 1,000 shots. The reported accuracy is the fraction of shots that produce the bitstring $s$.",
     "parameters": {
         "n": "The number of qubits."
     },
     "metrics": {
-        "accuracy": "The fraction of shots resulting in the secret $s$."
+        "accuracy": "The fraction of shots resulting in the bitstring $s$."
     }
 }

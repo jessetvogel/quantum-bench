@@ -1,11 +1,11 @@
 {
     "id": "bernstein-vazirani",
     "name": "Bernstein-Vazirani",
-    "description": "Description of the benchmark here.",
+    "description": "Given parameters $n \\ge 1$ and $s \\in \\{0, 1\\}^n$, this benchmark uses the <a target='_blank' href='https://jessetvogel.nl/quantum-glossary/#COM:bernstein-vazirani-algorithm'>Bernstein–Vazirani algorithm</a> to find $s$, using the $n$-qubit oracle $\\mathcal{O}$ defined by $\\mathcal{O} \\ket{i} = (-1)^{(i \\cdot s)} \\ket{i}$ for all $i \\in \\{0, 1\\}^n$. The algorithm is run for 1,000 shots.",
     "parameters": {
         "n": "The number of qubits."
     },
     "metrics": {
-        "fidelity": "Fidelity."
+        "fidelity": "The fraction of shots resulting in the bitstring $s$."
     }
 }

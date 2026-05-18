@@ -1,7 +1,7 @@
 {
     "id": "period-finding",
     "name": "Period finding",
-    "description": "Description of the benchmark here.",
+    "description": "Given parameters $n \\ge 2$ and $r \\le 2^n$, this benchmark applies <a target='_blank' href='https://jessetvogel.nl/quantum-glossary/#COM:shor-period-finding-algorithm'>Shor's period-finding algorithm</a> to the function $f(a) = a \\mod r$ to find $r$. The algorithm is run for 1,000 shots.",
     "parameters": {
         "n": "The number of qubits."
     },

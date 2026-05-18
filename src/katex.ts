@@ -30,8 +30,6 @@ const KaTeXOptions = {
         "\\mapsfrom": "\\leftarrow\\mathrel{\\mkern-3.2mu\\raisebox{.7mu}{$\\shortmid$}}",
         "\\isom": "\\cong",
         "\\braket": "\\langle #1 \\! \\mid \\! #2 \\rangle",
-        "\\bra": "\\langle #1 \\! \\mid",
-        "\\ket": "\\mid \\! #1 \\rangle",
         "\\U": "\\textup{U}",
         "\\SU": "\\textup{SU}",
         "\\O": "\\textup{O}",

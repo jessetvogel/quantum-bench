@@ -5,6 +5,7 @@ import { color } from "../plots/colors"
 import { Legend } from "../plots/legend";
 import { katex } from "../katex";
 import { visualizations } from "./plots";
+import { TOOLTIP_ENTROPY, TOOLTIP_QPU_TIME, TOOLTIP_RUN_TIME } from "../strings";
 
 type Options = {
     animate?: boolean;
@@ -53,15 +54,19 @@ export function PageBenchmark(benchmark: Benchmark, results: Result[], options: 
     // Add visualizations
     for (const vis of visualizations(benchmark.id)) {
         if (vis.type == "linechart") {
-            const opt = {
+            const opt: any = {
                 ...vis.options,
                 grid: true,
                 width: 480,
                 height: 320,
                 colors,
                 animate: options.animate || false,
-                ytooltip: benchmark.metrics[vis.y],
             };
+
+            if (vis.y in benchmark.metrics) opt.ytooltip = benchmark.metrics[vis.y];
+            if (vis.y == "entropy") opt.ytooltip = TOOLTIP_ENTROPY;
+            if (vis.y == "run_time") opt.ytooltip = TOOLTIP_RUN_TIME;
+            if (vis.y == "qpu_time") opt.ytooltip = TOOLTIP_QPU_TIME;
 
             charts.append(LineChart(createSeries(vis.x, vis.y, results), opt));
         }

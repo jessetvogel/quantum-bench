@@ -6,7 +6,7 @@ import { create, feat, clear } from './html';
 import { benchmarks, fetchData, results } from './data';
 import { Menu } from './menu';
 import { initTheme } from './theme';
-import { Summary } from './benchmarks/summary';
+import { PageSummary } from './benchmarks/page-summary';
 import { PageBenchmark } from './benchmarks/page-benchmark';
 
 async function init() {
@@ -58,7 +58,7 @@ async function update(content: HTMLElement, benchmark: string, backends: Set<str
             r.push(...results(benchmark, backends))
         }
         clear(content); // note: clearing after creating prevents flickering
-        content.append(Summary(r));
+        content.append(PageSummary(r));
         return;
     }
 

@@ -25,9 +25,11 @@ function tooltip(): HTMLElement {
                 "position": "absolute",
                 "background": "var(--bg)",
                 "border": "1px solid var(--border)",
-                "border-radius": "24px",
+                "border-radius": "16px",
                 "box-shadow": "var(--shadow)",
                 "padding": "8px 12px 4px 12px",
+                "max-width": "512px",
+                "font-size": "0.875rem",
             }
         });
 
