@@ -1,6 +1,5 @@
 import './theme.css';
 import './style.css';
-import './fonts.css';
 
 import { create, feat, clear } from './html';
 import { benchmarks, fetchData, results } from './data';

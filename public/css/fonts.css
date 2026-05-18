@@ -1,41 +1,41 @@
 @font-face {
     font-family: "Palatino Linotype";
-    src: url("fonts/PalatinoLinotype-Regular.ttf");
+    src: url("../fonts/PalatinoLinotype-Regular.ttf");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Palatino Linotype";
-    src: url("fonts/PalatinoLinotype-Bold.ttf");
+    src: url("../fonts/PalatinoLinotype-Bold.ttf");
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: "Palatino Linotype";
-    src: url("fonts/PalatinoLinotype-Italic.ttf");
+    src: url("../fonts/PalatinoLinotype-Italic.ttf");
     font-weight: normal;
     font-style: italic;
 }
 
 @font-face {
     font-family: "Palatino Linotype";
-    src: url("fonts/PalatinoLinotype-BoldItalic.ttf");
+    src: url("../fonts/PalatinoLinotype-BoldItalic.ttf");
     font-weight: bold;
     font-style: italic;
 }
 
 @font-face {
     font-family: "DM Mono";
-    src: url("fonts/DMMono-Regular.ttf");
+    src: url("../fonts/DMMono-Regular.ttf");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "DM Sans";
-    src: url("fonts/DMSans-Regular.ttf");
+    src: url("../fonts/DMSans-Regular.ttf");
     font-weight: normal;
     font-style: normal;
 }
